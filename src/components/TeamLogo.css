@@ -1,0 +1,49 @@
+.team-logo {
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.team-logo-sm {
+    width: 28px;
+    height: 20px;
+}
+
+.team-logo-md {
+    width: 48px;
+    height: 32px;
+}
+
+.team-logo-lg {
+    width: 80px;
+    height: 50px;
+}
+
+.team-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    color: #fff;
+    border-radius: 4px;
+    letter-spacing: 0.05em;
+    flex-shrink: 0;
+}
+
+.team-badge.team-logo-sm {
+    width: 28px;
+    height: 20px;
+    font-size: 0.45rem;
+}
+
+.team-badge.team-logo-md {
+    width: 48px;
+    height: 32px;
+    font-size: 0.6rem;
+}
+
+.team-badge.team-logo-lg {
+    width: 80px;
+    height: 50px;
+    font-size: 0.75rem;
+}

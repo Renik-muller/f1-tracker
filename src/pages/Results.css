@@ -1,0 +1,77 @@
+.results-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.select-label {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    color: var(--f1-text-dim);
+    text-transform: uppercase;
+}
+
+.race-info-bar {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    background: var(--f1-card);
+    border: 1px solid var(--f1-border);
+    border-radius: var(--radius-md);
+    margin-bottom: 1.5rem;
+}
+
+.race-info-bar .flag {
+    font-size: 2rem;
+}
+
+.race-result-title {
+    font-size: 1.1rem;
+    font-family: 'Orbitron', sans-serif;
+    margin-bottom: 0.2rem;
+}
+
+.race-result-meta {
+    font-size: 0.8rem;
+    color: var(--f1-text-dim);
+}
+
+.chart-wrap {
+    padding: 1.25rem;
+}
+
+.chart-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    color: var(--f1-text-dim);
+    margin-bottom: 1rem;
+}
+
+.result-driver {
+    font-weight: 500;
+}
+
+.fl-badge {
+    display: inline-block;
+    margin-left: 0.4rem;
+    font-size: 0.65rem;
+    background: rgba(128, 0, 128, 0.2);
+    color: #c080ff;
+    border: 1px solid rgba(128, 0, 128, 0.4);
+    padding: 0.1rem 0.3rem;
+    border-radius: 4px;
+}
+
+.grid-pos {
+    color: var(--f1-text-dim);
+}
+
+.result-time {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.78rem;
+}

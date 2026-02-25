@@ -1,0 +1,47 @@
+.season-selector {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.season-label-txt {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--f1-text-dim);
+}
+
+.season-pills {
+    display: flex;
+    background: var(--f1-surface);
+    border: 1px solid var(--f1-border);
+    border-radius: 999px;
+    padding: 3px;
+    gap: 3px;
+}
+
+.season-pill {
+    padding: 0.35rem 1.1rem;
+    border-radius: 999px;
+    border: none;
+    background: transparent;
+    color: var(--f1-text-dim);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    transition: all var(--transition);
+}
+
+.season-pill:hover:not(.active) {
+    color: var(--f1-text);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.season-pill.active {
+    background: var(--f1-red);
+    color: #fff;
+    box-shadow: 0 0 16px rgba(225, 6, 0, 0.35);
+}

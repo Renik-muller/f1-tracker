@@ -1,0 +1,53 @@
+.driver-photo,
+.driver-initials {
+    border-radius: 50%;
+    border: 2px solid;
+    flex-shrink: 0;
+    object-fit: cover;
+    object-position: top;
+}
+
+.driver-photo-sm {
+    width: 36px;
+    height: 36px;
+}
+
+.driver-photo-md {
+    width: 72px;
+    height: 72px;
+}
+
+.driver-photo-lg {
+    width: 120px;
+    height: 120px;
+}
+
+.driver-photo-xl {
+    width: 160px;
+    height: 160px;
+}
+
+.driver-initials {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    color: #fff;
+}
+
+.driver-initials.driver-photo-sm {
+    font-size: 0.6rem;
+}
+
+.driver-initials.driver-photo-md {
+    font-size: 1rem;
+}
+
+.driver-initials.driver-photo-lg {
+    font-size: 1.6rem;
+}
+
+.driver-initials.driver-photo-xl {
+    font-size: 2rem;
+}

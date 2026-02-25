@@ -1,0 +1,394 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* ── Design Tokens ─────────────────────────────────────────────── */
+:root {
+  --f1-red: #E10600;
+  --f1-red-glow: #ff2a26;
+  --f1-dark: #070707;
+  --f1-surface: #101010;
+  --f1-card: #161616;
+  --f1-border: #2a2a2a;
+  --f1-muted: #3a3a3a;
+  --f1-silver: #c0c0c0;
+  --f1-gold: #ffd700;
+  --f1-text: #f0f0f0;
+  --f1-text-dim: #888;
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Reset & Base ──────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--f1-dark);
+  color: var(--f1-text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Carbon-fiber grid overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(0deg,
+      transparent,
+      transparent 39px,
+      rgba(255, 255, 255, 0.015) 39px,
+      rgba(255, 255, 255, 0.015) 40px),
+    repeating-linear-gradient(90deg,
+      transparent,
+      transparent 39px,
+      rgba(255, 255, 255, 0.015) 39px,
+      rgba(255, 255, 255, 0.015) 40px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+#root {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Typography ────────────────────────────────────────────────── */
+h1,
+h2,
+h3 {
+  font-family: 'Orbitron', sans-serif;
+  letter-spacing: 0.05em;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ── Scrollbar ─────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--f1-surface);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--f1-red);
+  border-radius: 3px;
+}
+
+/* ── Layout Helpers ────────────────────────────────────────────── */
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.page {
+  padding: 6rem 1.5rem 3rem;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.page-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-weight: 900;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.page-title span.accent {
+  color: var(--f1-red);
+}
+
+/* Header row: title + season selector side by side */
+.page-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.page-header-row .page-title {
+  margin-bottom: 0;
+}
+
+/* Team cell: logo icon + team name */
+.team-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Clickable race cards */
+.race-card[role="button"] {
+  cursor: pointer;
+}
+
+.race-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--f1-border);
+}
+
+.race-view-btn {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  color: var(--f1-text-dim);
+  transition: color var(--transition);
+}
+
+.race-card:hover .race-view-btn {
+  color: var(--f1-red);
+}
+
+
+/* ── Cards ─────────────────────────────────────────────────────── */
+.card {
+  background: var(--f1-card);
+  border: 1px solid var(--f1-border);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition);
+}
+
+.card:hover {
+  border-color: var(--f1-red);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(225, 6, 0, 0.15);
+}
+
+/* ── Badge / Pill ──────────────────────────────────────────────── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.badge-completed {
+  background: rgba(90, 90, 90, 0.3);
+  color: var(--f1-text-dim);
+  border: 1px solid var(--f1-muted);
+}
+
+.badge-next {
+  background: rgba(225, 6, 0, 0.15);
+  color: var(--f1-red);
+  border: 1px solid var(--f1-red);
+  animation: pulse-border 1.6s ease infinite;
+}
+
+.badge-upcoming {
+  background: rgba(192, 192, 192, 0.1);
+  color: var(--f1-silver);
+  border: 1px solid rgba(192, 192, 192, 0.3);
+}
+
+@keyframes pulse-border {
+
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(225, 6, 0, 0.4);
+  }
+
+  50% {
+    box-shadow: 0 0 0 5px rgba(225, 6, 0, 0);
+  }
+}
+
+/* ── Red Accent Line ───────────────────────────────────────────── */
+.red-line {
+  height: 3px;
+  background: linear-gradient(90deg, var(--f1-red), transparent);
+  border-radius: 2px;
+  margin-bottom: 1.5rem;
+}
+
+/* ── Loading Spinner ───────────────────────────────────────────── */
+.spinner-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 4rem;
+  color: var(--f1-text-dim);
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 3px solid var(--f1-border);
+  border-top-color: var(--f1-red);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ── Grid Utilities ────────────────────────────────────────────── */
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.25rem;
+}
+
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+/* ── Select ────────────────────────────────────────────────────── */
+.f1-select {
+  background: var(--f1-card);
+  border: 1px solid var(--f1-border);
+  color: var(--f1-text);
+  padding: 0.6rem 1rem;
+  border-radius: var(--radius-sm);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  outline: none;
+  cursor: pointer;
+  transition: border-color var(--transition);
+}
+
+.f1-select:focus {
+  border-color: var(--f1-red);
+}
+
+/* ── Table ─────────────────────────────────────────────────────── */
+.f1-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.f1-table th {
+  text-align: left;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--f1-text-dim);
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--f1-border);
+}
+
+.f1-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  font-size: 0.9rem;
+}
+
+.f1-table tbody tr {
+  transition: background var(--transition);
+}
+
+.f1-table tbody tr:hover {
+  background: rgba(225, 6, 0, 0.05);
+}
+
+/* ── Position Medals ───────────────────────────────────────────── */
+.pos-1 {
+  color: var(--f1-gold);
+  font-weight: 700;
+}
+
+.pos-2 {
+  color: var(--f1-silver);
+  font-weight: 700;
+}
+
+.pos-3 {
+  color: #cd7f32;
+  font-weight: 700;
+}
+
+/* ── Toggle Tabs ───────────────────────────────────────────────── */
+.tab-group {
+  display: inline-flex;
+  background: var(--f1-surface);
+  border: 1px solid var(--f1-border);
+  border-radius: var(--radius-sm);
+  padding: 3px;
+  gap: 3px;
+  margin-bottom: 1.5rem;
+}
+
+.tab-btn {
+  padding: 0.5rem 1.25rem;
+  border-radius: 5px;
+  border: none;
+  background: transparent;
+  color: var(--f1-text-dim);
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.tab-btn.active {
+  background: var(--f1-red);
+  color: #fff;
+}
+
+/* ── Error Box ────────────────────────────────────────────────── */
+.error-box {
+  background: rgba(225, 6, 0, 0.08);
+  border: 1px solid rgba(225, 6, 0, 0.3);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  color: var(--f1-red);
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+/* ── Flag emoji sizing ─────────────────────────────────────────── */
+.flag {
+  font-size: 1.2em;
+}

@@ -1,0 +1,85 @@
+.schedule-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.25rem;
+}
+
+.schedule-hint {
+    font-size: 0.8rem;
+    color: var(--f1-text-dim);
+    margin-bottom: 0.75rem;
+}
+
+.race-card {
+    position: relative;
+    overflow: hidden;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.next-glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at top, rgba(225, 6, 0, 0.12) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.status-next {
+    border-color: rgba(225, 6, 0, 0.5) !important;
+    box-shadow: 0 0 20px rgba(225, 6, 0, 0.12) !important;
+}
+
+.status-completed {
+    opacity: 0.65;
+}
+
+.race-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+.race-round {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: var(--f1-text-dim);
+}
+
+.race-flag {
+    font-size: 2.5rem;
+    line-height: 1;
+    margin: 0.25rem 0;
+}
+
+.race-name {
+    font-size: 0.95rem;
+    font-weight: 700;
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 0.02em;
+    line-height: 1.3;
+    margin-top: 0.25rem;
+}
+
+.race-circuit {
+    font-size: 0.78rem;
+    color: var(--f1-silver);
+}
+
+.race-location {
+    font-size: 0.75rem;
+    color: var(--f1-text-dim);
+}
+
+.race-date {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    color: var(--f1-red);
+    margin-top: auto;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--f1-border);
+}
