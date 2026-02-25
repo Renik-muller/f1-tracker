@@ -10,13 +10,9 @@ export const TEAM_COLORS = {
     rb: '#6692FF',
     williams: '#64C4FF',
     sauber: '#52E252',
-    // Legacy / fallback
+    cadillac: '#CC0000',
     alphatauri: '#5E8FAA',
     alfa: '#C92D4B',
-    renault: '#FFF500',
-    force_india: '#F596C8',
-    racing_point: '#F596C8',
-    toro_rosso: '#469BFF',
 };
 
 export function getTeamColor(constructorId) {
@@ -25,31 +21,33 @@ export function getTeamColor(constructorId) {
     return TEAM_COLORS[key] || '#888888';
 }
 
-// ── Country Flags (emoji) ─────────────────────────────────────────
+// ── Country Flags (emoji) — case-insensitive lookup ───────────────
 const FLAGS = {
+    // nationality adjectives (from Ergast API)
     british: '🇬🇧', dutch: '🇳🇱', monegasque: '🇲🇨',
     australian: '🇦🇺', spanish: '🇪🇸', german: '🇩🇪',
     french: '🇫🇷', mexican: '🇲🇽', canadian: '🇨🇦',
     finnish: '🇫🇮', japanese: '🇯🇵', chinese: '🇨🇳',
     danish: '🇩🇰', thai: '🇹🇭', american: '🇺🇸',
     italian: '🇮🇹', austrian: '🇦🇹', swiss: '🇨🇭',
-    new_zealander: '🇳🇿', argentinian: '🇦🇷', bahraini: '🇧🇭',
-    // Countries (circuit locations)
-    UK: '🇬🇧', Netherlands: '🇳🇱', Monaco: '🇲🇨',
-    Australia: '🇦🇺', Spain: '🇪🇸', Germany: '🇩🇪',
-    France: '🇫🇷', Mexico: '🇲🇽', Canada: '🇨🇦',
-    Bahrain: '🇧🇭', Japan: '🇯🇵', China: '🇨🇳',
-    Italy: '🇮🇹', Austria: '🇦🇹', Hungary: '🇭🇺',
-    Belgium: '🇧🇪', Singapore: '🇸🇬', USA: '🇺🇸',
-    'United States': '🇺🇸', Brazil: '🇧🇷', UAE: '🇦🇪',
-    'Abu Dhabi': '🇦🇪', Saudi: '🇸🇦', 'Saudi Arabia': '🇸🇦',
-    Azerbaijan: '🇦🇿', Qatar: '🇶🇦', Portugal: '🇵🇹',
-    Switzerland: '🇨🇭', New_Zealand: '🇳🇿', Argentina: '🇦🇷',
+    'new zealander': '🇳🇿', new_zealander: '🇳🇿', argentinian: '🇦🇷',
+    bahraini: '🇧🇭', brazilian: '🇧🇷',
+    // Country names (circuit locations)
+    uk: '🇬🇧', netherlands: '🇳🇱', monaco: '🇲🇨',
+    australia: '🇦🇺', spain: '🇪🇸', germany: '🇩🇪',
+    france: '🇫🇷', mexico: '🇲🇽', canada: '🇨🇦',
+    bahrain: '🇧🇭', japan: '🇯🇵', china: '🇨🇳',
+    italy: '🇮🇹', austria: '🇦🇹', hungary: '🇭🇺',
+    belgium: '🇧🇪', singapore: '🇸🇬', usa: '🇺🇸',
+    'united states': '🇺🇸', brazil: '🇧🇷', uae: '🇦🇪',
+    'abu dhabi': '🇦🇪', 'saudi arabia': '🇸🇦', saudi: '🇸🇦',
+    azerbaijan: '🇦🇿', qatar: '🇶🇦', portugal: '🇵🇹',
 };
 
 export function getCountryFlag(country) {
     if (!country) return '🏁';
-    return FLAGS[country] || FLAGS[country.replace(/ /g, '_')] || '🏁';
+    const key = country.toLowerCase().trim();
+    return FLAGS[key] || FLAGS[key.replace(/ /g, '_')] || '🏁';
 }
 
 const NATIONALITIES = {
@@ -58,8 +56,8 @@ const NATIONALITIES = {
     french: 'French', mexican: 'Mexican', canadian: 'Canadian',
     finnish: 'Finnish', japanese: 'Japanese', thai: 'Thai',
     danish: 'Danish', american: 'American', italian: 'Italian',
-    austrian: 'Austrian', new_zealander: 'New Zealander',
-    argentinian: 'Argentinian', chinese: 'Chinese',
+    austrian: 'Austrian', 'new zealander': 'New Zealander',
+    argentinian: 'Argentinian', chinese: 'Chinese', brazilian: 'Brazilian',
 };
 
 export function getNationality(nat) {

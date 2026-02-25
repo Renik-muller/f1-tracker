@@ -32,6 +32,7 @@ function useAsync(asyncFn, deps = []) {
 export const useSchedule = (year = SCHEDULE_YEAR) =>
     useAsync(() => getSchedule(year), [year]);
 
+
 export const useDriverStandings = (year = getCurrentSeason()) =>
     useAsync(() => getDriverStandings(year), [year]);
 

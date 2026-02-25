@@ -27,6 +27,11 @@
     font-weight: 600;
 }
 
+.flag-cell {
+    font-size: 1.2rem;
+    text-align: center;
+}
+
 .pts-cell {
     font-family: 'Orbitron', sans-serif;
     font-size: 0.9rem;

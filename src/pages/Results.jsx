@@ -1,33 +1,81 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { LineChart, Line, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import {
+    LineChart, Line, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer,
+} from 'recharts';
 import LoadingSpinner from '../components/LoadingSpinner';
 import SeasonSelector from '../components/SeasonSelector';
 import TeamLogo from '../components/TeamLogo';
-import { useCompletedRaces, useRaceResult } from '../hooks/useF1Data';
+import { useSchedule, useRaceResult } from '../hooks/useF1Data';
+import { STANDINGS_YEAR } from '../api/f1Api';
 import { getCountryFlag, getTeamColor } from '../utils/helpers';
 import './Results.css';
 
+// ── Custom F1 Car dot ─────────────────────────────────────────────
+const CarDot = ({ cx, cy, fill }) => {
+    if (!cx || !cy) return null;
+    return (
+        <g transform={`translate(${cx},${cy})`}>
+            {/* body */}
+            <ellipse rx="7" ry="4" fill={fill} stroke="#fff" strokeWidth="0.8" />
+            {/* cockpit bump */}
+            <ellipse cx="1" cy="-1.5" rx="3" ry="2" fill={fill} stroke="#fff" strokeWidth="0.6" />
+            {/* front wing */}
+            <rect x="-10" y="2" width="5" height="1.5" rx="0.5" fill={fill} stroke="#fff" strokeWidth="0.5" />
+            {/* rear wing */}
+            <rect x="6" y="2" width="5" height="1.5" rx="0.5" fill={fill} stroke="#fff" strokeWidth="0.5" />
+        </g>
+    );
+};
+
+// ── Position change chart ─────────────────────────────────────────
 function GridFinishChart({ results }) {
     if (!results?.length) return null;
-    const drivers = results.slice(0, 10).map(r => ({
-        name: r.Driver.code || r.Driver.familyName.slice(0, 3).toUpperCase(),
-        grid: parseInt(r.grid) || 0,
-        finish: parseInt(r.position) || 0,
+
+    const top10 = results.slice(0, 10);
+    // Build properly-keyed data array for Recharts
+    const chartData = [
+        { pos: 'Grid', ...Object.fromEntries(top10.map(r => [r.Driver.code || r.Driver.familyName.slice(0, 3).toUpperCase(), parseInt(r.grid) || 20])) },
+        { pos: 'Finish', ...Object.fromEntries(top10.map(r => [r.Driver.code || r.Driver.familyName.slice(0, 3).toUpperCase(), parseInt(r.position) || 20])) },
+    ];
+
+    const drivers = top10.map(r => ({
+        key: r.Driver.code || r.Driver.familyName.slice(0, 3).toUpperCase(),
         color: getTeamColor(r.Constructor.constructorId),
     }));
+
+    const maxPos = Math.max(...top10.map(r => Math.max(parseInt(r.grid) || 1, parseInt(r.position) || 1)), 10);
+
     return (
         <div className="chart-wrap card">
-            <h3 className="chart-title">Grid → Finish (Top 10)</h3>
-            <ResponsiveContainer width="100%" height={240}>
-                <LineChart data={[{ x: 'Grid' }, { x: 'Finish' }]} margin={{ top: 10, right: 20, bottom: 10, left: 0 }}>
-                    <XAxis dataKey="x" tick={{ fill: '#888', fontSize: 12 }} />
-                    <YAxis reversed tick={{ fill: '#888', fontSize: 11 }} domain={[1, 10]} />
-                    <Tooltip contentStyle={{ background: 'var(--f1-card)', border: '1px solid var(--f1-border)', borderRadius: '8px', color: '#fff' }} />
-                    <Legend wrapperStyle={{ fontSize: '0.75rem' }} />
+            <h3 className="chart-title">Grid → Finish Position (Top 10)</h3>
+            <ResponsiveContainer width="100%" height={280}>
+                <LineChart data={chartData} margin={{ top: 16, right: 24, bottom: 5, left: 0 }}>
+                    <XAxis dataKey="pos" tick={{ fill: '#888', fontSize: 13, fontWeight: 600 }} />
+                    <YAxis
+                        reversed
+                        domain={[1, maxPos]}
+                        tick={{ fill: '#888', fontSize: 11 }}
+                        label={{ value: 'Position', angle: -90, position: 'insideLeft', fill: '#888', fontSize: 11 }}
+                    />
+                    <Tooltip
+                        contentStyle={{ background: 'var(--f1-card)', border: '1px solid var(--f1-border)', borderRadius: '8px', color: '#fff', fontSize: '0.8rem' }}
+                    />
+                    <Legend
+                        wrapperStyle={{ fontSize: '0.7rem', paddingTop: '0.5rem' }}
+                        formatter={(val, entry) => <span style={{ color: entry.color }}>{val}</span>}
+                    />
                     {drivers.map(d => (
-                        <Line key={d.name} type="monotone" dataKey={d.name} stroke={d.color} strokeWidth={2} dot={{ r: 4 }}
-                            data={[{ x: 'Grid', [d.name]: d.grid }, { x: 'Finish', [d.name]: d.finish }]} />
+                        <Line
+                            key={d.key}
+                            type="monotone"
+                            dataKey={d.key}
+                            stroke={d.color}
+                            strokeWidth={2}
+                            dot={<CarDot fill={d.color} />}
+                            activeDot={{ r: 6, fill: d.color, stroke: '#fff', strokeWidth: 1 }}
+                            connectNulls
+                        />
                     ))}
                 </LineChart>
             </ResponsiveContainer>
@@ -35,12 +83,20 @@ function GridFinishChart({ results }) {
     );
 }
 
+// ── Main Results page ─────────────────────────────────────────────
 export default function Results() {
     const [season, setSeason] = useState(2025);
-    const { data: completed, loading: cLoading } = useCompletedRaces(season);
+    // Use full schedule — all 2025 races are in the past, 2026 none yet
+    const { data: schedule, loading: sLoading } = useSchedule(season);
     const [selectedRound, setSelectedRound] = useState('');
 
-    const effectiveRound = selectedRound || completed?.[completed.length - 1]?.round || '';
+    // Filter to completed races only
+    const completedRaces = (schedule || []).filter(r => {
+        const todayStr = new Date().toISOString().slice(0, 10);
+        return r.date < todayStr;
+    });
+
+    const effectiveRound = selectedRound || completedRaces[completedRaces.length - 1]?.round || '';
     const { data: raceResult, loading: rLoading } = useRaceResult(season, effectiveRound);
 
     const handleSeasonChange = (y) => {
@@ -48,7 +104,7 @@ export default function Results() {
         setSelectedRound('');
     };
 
-    const isEmpty2026 = season === 2026 && !cLoading && !completed?.length;
+    const isEmpty2026 = season === 2026 && !sLoading && !completedRaces.length;
 
     return (
         <motion.div className="page" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.4 }}>
@@ -59,23 +115,28 @@ export default function Results() {
             <div className="red-line" />
 
             {isEmpty2026 ? (
-                <div className="error-box">
-                    🏁 No race results yet for the {season} season. Check back after Round 1!
-                </div>
-            ) : cLoading ? (
+                <div className="error-box">🏁 No race results yet for 2026. Check back after Round 1!</div>
+            ) : sLoading ? (
                 <LoadingSpinner />
             ) : (
                 <>
                     <div className="results-controls">
                         <label htmlFor="race-select" className="select-label">Select Race</label>
-                        <select id="race-select" className="f1-select" value={effectiveRound} onChange={e => setSelectedRound(e.target.value)}>
-                            {(completed || []).map(r => (
-                                <option key={r.round} value={r.round}>Rd {r.round} — {r.raceName}</option>
+                        <select
+                            id="race-select"
+                            className="f1-select"
+                            value={effectiveRound}
+                            onChange={e => setSelectedRound(e.target.value)}
+                        >
+                            {completedRaces.map(r => (
+                                <option key={r.round} value={r.round}>
+                                    Rd {r.round.padStart(2, '0')} — {r.raceName}
+                                </option>
                             ))}
                         </select>
                     </div>
 
-                    {rLoading ? <LoadingSpinner /> : raceResult ? (
+                    {rLoading ? <LoadingSpinner text="Loading race data..." /> : raceResult ? (
                         <>
                             <div className="race-info-bar">
                                 <span className="flag">{getCountryFlag(raceResult.Circuit?.Location?.country)}</span>
@@ -119,7 +180,7 @@ export default function Results() {
                             </div>
                         </>
                     ) : (
-                        <div className="error-box">No results available yet.</div>
+                        <div className="error-box">No results available for this race yet.</div>
                     )}
                 </>
             )}

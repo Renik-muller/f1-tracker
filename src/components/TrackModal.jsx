@@ -5,8 +5,11 @@ import { getTrackLayout, CIRCUIT_INFO } from '../utils/trackLayouts';
 import { getCountryFlag } from '../utils/helpers';
 import './TrackModal.css';
 
+// Sector color palette
+const SECTOR_COLORS = ['#E10600', '#FFD700', '#8B00FF'];
+const SECTOR_LABELS = ['Sector 1', 'Sector 2', 'Sector 3'];
+
 export default function TrackModal({ race, onClose }) {
-    // Close on Escape
     useEffect(() => {
         const handler = (e) => { if (e.key === 'Escape') onClose(); };
         window.addEventListener('keydown', handler);
@@ -19,12 +22,11 @@ export default function TrackModal({ race, onClose }) {
     const info = CIRCUIT_INFO[circuitId];
     const flag = getCountryFlag(race.Circuit?.Location?.country);
 
-    // Session schedule from race object
     const sessions = [
         race.FirstPractice && { label: 'Practice 1', date: race.FirstPractice.date, time: race.FirstPractice.time },
         race.SecondPractice && { label: 'Practice 2', date: race.SecondPractice.date, time: race.SecondPractice.time },
         race.ThirdPractice && { label: 'Practice 3', date: race.ThirdPractice.date, time: race.ThirdPractice.time },
-        race.Sprint && { label: 'Sprint', date: race.Sprint.date, time: race.Sprint.time },
+        race.Sprint && { label: '🟠 Sprint', date: race.Sprint.date, time: race.Sprint.time },
         race.SprintShootout && { label: 'Sprint Qual', date: race.SprintShootout.date, time: race.SprintShootout.time },
         race.Qualifying && { label: 'Qualifying', date: race.Qualifying.date, time: race.Qualifying.time },
         { label: 'Grand Prix', date: race.date, time: race.time },
@@ -51,9 +53,7 @@ export default function TrackModal({ race, onClose }) {
                     <div className="track-modal-header">
                         <div>
                             <p className="track-modal-round">ROUND {race.round}</p>
-                            <h2 className="track-modal-title">
-                                {flag} {race.raceName}
-                            </h2>
+                            <h2 className="track-modal-title">{flag} {race.raceName}</h2>
                             <p className="track-modal-loc">
                                 {race.Circuit?.circuitName} · {race.Circuit?.Location?.locality}, {race.Circuit?.Location?.country}
                             </p>
@@ -62,19 +62,36 @@ export default function TrackModal({ race, onClose }) {
                     </div>
 
                     <div className="track-modal-body">
-                        {/* Track Layout */}
+                        {/* Track SVG Layout */}
                         <div className="track-layout-wrap">
                             {layoutUrl ? (
-                                <img
-                                    src={layoutUrl}
-                                    alt={`${race.Circuit?.circuitName} layout`}
-                                    className="track-layout-img"
-                                    onError={(e) => { e.target.style.display = 'none'; }}
-                                />
+                                <div className="track-img-container">
+                                    <img
+                                        src={layoutUrl}
+                                        alt={`${race.Circuit?.circuitName} layout`}
+                                        className="track-layout-img"
+                                        onError={(e) => {
+                                            e.target.parentElement.innerHTML = `
+                        <div class="track-layout-placeholder">
+                          <span style="font-size:2.5rem">🗺</span>
+                          <p>Layout not available</p>
+                        </div>`;
+                                        }}
+                                    />
+                                    {/* Sector legend overlay */}
+                                    <div className="sector-legend">
+                                        {SECTOR_LABELS.map((label, i) => (
+                                            <div key={label} className="sector-chip">
+                                                <span className="sector-dot" style={{ background: SECTOR_COLORS[i] }} />
+                                                <span>{label}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
                             ) : (
                                 <div className="track-layout-placeholder">
                                     <span>🗺</span>
-                                    <p>Layout not available</p>
+                                    <p>Layout coming soon</p>
                                 </div>
                             )}
                         </div>
@@ -83,8 +100,16 @@ export default function TrackModal({ race, onClose }) {
                         {info && (
                             <div className="circuit-stats">
                                 <div className="stat-chip"><span className="chip-val">{info.laps}</span><span className="chip-lbl">Laps</span></div>
-                                <div className="stat-chip"><span className="chip-val">{info.length}</span><span className="chip-lbl">Circuit Length</span></div>
+                                <div className="stat-chip"><span className="chip-val">{info.length}</span><span className="chip-lbl">Length</span></div>
                                 <div className="stat-chip"><span className="chip-val">{info.turns}</span><span className="chip-lbl">Turns</span></div>
+                                {info.laps && info.length && (
+                                    <div className="stat-chip">
+                                        <span className="chip-val">
+                                            {(info.laps * parseFloat(info.length)).toFixed(1)} km
+                                        </span>
+                                        <span className="chip-lbl">Race Distance</span>
+                                    </div>
+                                )}
                             </div>
                         )}
 
