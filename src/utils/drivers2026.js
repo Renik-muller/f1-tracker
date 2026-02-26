@@ -1,5 +1,4 @@
-// Static 2026 F1 driver roster (API won't have standings until races begin)
-// Sources: confirmed 2025→2026 driver moves as of early 2026
+// Static 2026 F1 driver roster — confirmed lineups
 
 export const DRIVERS_2026 = [
     // Red Bull Racing
@@ -10,9 +9,9 @@ export const DRIVERS_2026 = [
         Constructors: [{ constructorId: 'red_bull', name: 'Red Bull Racing' }]
     },
     {
-        driverId: 'liam_lawson', givenName: 'Liam', familyName: 'Lawson', permanentNumber: '30',
-        nationality: 'new zealander', dateOfBirth: '2002-02-11',
-        url: 'https://en.wikipedia.org/wiki/Liam_Lawson',
+        driverId: 'isack_hadjar', givenName: 'Isack', familyName: 'Hadjar', permanentNumber: '6',
+        nationality: 'french', dateOfBirth: '2004-09-28',
+        url: 'https://en.wikipedia.org/wiki/Isack_Hadjar',
         Constructors: [{ constructorId: 'red_bull', name: 'Red Bull Racing' }]
     },
 
@@ -100,17 +99,17 @@ export const DRIVERS_2026 = [
         Constructors: [{ constructorId: 'haas', name: 'Haas' }]
     },
 
-    // Racing Bulls (RB/VCARB)
+    // Racing Bulls
     {
-        driverId: 'isack_hadjar', givenName: 'Isack', familyName: 'Hadjar', permanentNumber: '6',
-        nationality: 'french', dateOfBirth: '2004-09-28',
-        url: 'https://en.wikipedia.org/wiki/Isack_Hadjar',
+        driverId: 'liam_lawson', givenName: 'Liam', familyName: 'Lawson', permanentNumber: '30',
+        nationality: 'new zealander', dateOfBirth: '2002-02-11',
+        url: 'https://en.wikipedia.org/wiki/Liam_Lawson',
         Constructors: [{ constructorId: 'rb', name: 'Racing Bulls' }]
     },
     {
-        driverId: 'yuki_tsunoda', givenName: 'Yuki', familyName: 'Tsunoda', permanentNumber: '22',
-        nationality: 'japanese', dateOfBirth: '2000-05-11',
-        url: 'https://en.wikipedia.org/wiki/Yuki_Tsunoda',
+        driverId: 'arvid_lindblad', givenName: 'Arvid', familyName: 'Lindblad', permanentNumber: '5',
+        nationality: 'british', dateOfBirth: '2007-03-27',
+        url: 'https://en.wikipedia.org/wiki/Arvid_Lindblad',
         Constructors: [{ constructorId: 'rb', name: 'Racing Bulls' }]
     },
 
@@ -133,26 +132,26 @@ export const DRIVERS_2026 = [
         driverId: 'nico_hulkenberg', givenName: 'Nico', familyName: 'Hülkenberg', permanentNumber: '27',
         nationality: 'german', dateOfBirth: '1987-08-19',
         url: 'https://en.wikipedia.org/wiki/Nico_H%C3%BClkenberg',
-        Constructors: [{ constructorId: 'sauber', name: 'Audi' }]
+        Constructors: [{ constructorId: 'audi', name: 'Audi' }]
     },
     {
-        driverId: 'gabriel_bortoleto', givenName: 'Gabriel', familyName: 'Bortoleto', permanentNumber: '5',
+        driverId: 'gabriel_bortoleto', givenName: 'Gabriel', familyName: 'Bortoleto', permanentNumber: '16',
         nationality: 'brazilian', dateOfBirth: '2004-10-14',
         url: 'https://en.wikipedia.org/wiki/Gabriel_Bortoleto',
-        Constructors: [{ constructorId: 'sauber', name: 'Audi' }]
+        Constructors: [{ constructorId: 'audi', name: 'Audi' }]
     },
 
     // Cadillac (new team 2026)
     {
-        driverId: 'colton_herta', givenName: 'Colton', familyName: 'Herta', permanentNumber: '28',
-        nationality: 'american', dateOfBirth: '2000-03-30',
-        url: 'https://en.wikipedia.org/wiki/Colton_Herta',
+        driverId: 'sergio_perez', givenName: 'Sergio', familyName: 'Pérez', permanentNumber: '11',
+        nationality: 'mexican', dateOfBirth: '1990-01-26',
+        url: 'https://en.wikipedia.org/wiki/Sergio_P%C3%A9rez',
         Constructors: [{ constructorId: 'cadillac', name: 'Cadillac' }]
     },
     {
-        driverId: 'marcus_armstrong', givenName: 'Marcus', familyName: 'Armstrong', permanentNumber: '45',
-        nationality: 'new zealander', dateOfBirth: '2000-12-21',
-        url: 'https://en.wikipedia.org/wiki/Marcus_Armstrong',
+        driverId: 'valtteri_bottas', givenName: 'Valtteri', familyName: 'Bottas', permanentNumber: '77',
+        nationality: 'finnish', dateOfBirth: '1989-08-28',
+        url: 'https://en.wikipedia.org/wiki/Valtteri_Bottas',
         Constructors: [{ constructorId: 'cadillac', name: 'Cadillac' }]
     },
 ];

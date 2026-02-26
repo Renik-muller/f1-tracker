@@ -13,6 +13,7 @@ export const TEAM_LOGOS = {
     sauber: 'https://upload.wikimedia.org/wikipedia/commons/1/1e/Stake_F1_Team_Logo.svg',
     // 2026
     cadillac: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Cadillac_logo.svg/200px-Cadillac_logo.svg.png',
+    audi: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Audi-Logo_2016.svg/200px-Audi-Logo_2016.svg.png',
     // Legacy fallback IDs
     alphatauri: 'https://upload.wikimedia.org/wikipedia/commons/6/60/RB_F1_Team_logo.svg',
     alfa: 'https://upload.wikimedia.org/wikipedia/commons/1/1e/Stake_F1_Team_Logo.svg',
@@ -22,7 +23,7 @@ export const TEAM_ABBR = {
     red_bull: 'RBR', mclaren: 'MCL', ferrari: 'FER',
     mercedes: 'MER', aston_martin: 'AMR', alpine: 'ALP',
     haas: 'HAS', rb: 'RB', williams: 'WIL',
-    sauber: 'SAU', cadillac: 'CAD', alphatauri: 'RB',
+    sauber: 'SAU', cadillac: 'CAD', audi: 'AUDI', alphatauri: 'RB',
     alfa: 'SAU',
 };
 

@@ -11,46 +11,28 @@ import { STANDINGS_YEAR } from '../api/f1Api';
 import { getCountryFlag, getTeamColor } from '../utils/helpers';
 import './Results.css';
 
-// ── Custom F1 Car dot ─────────────────────────────────────────────
-const CarDot = ({ cx, cy, fill }) => {
-    if (!cx || !cy) return null;
-    return (
-        <g transform={`translate(${cx},${cy})`}>
-            {/* body */}
-            <ellipse rx="7" ry="4" fill={fill} stroke="#fff" strokeWidth="0.8" />
-            {/* cockpit bump */}
-            <ellipse cx="1" cy="-1.5" rx="3" ry="2" fill={fill} stroke="#fff" strokeWidth="0.6" />
-            {/* front wing */}
-            <rect x="-10" y="2" width="5" height="1.5" rx="0.5" fill={fill} stroke="#fff" strokeWidth="0.5" />
-            {/* rear wing */}
-            <rect x="6" y="2" width="5" height="1.5" rx="0.5" fill={fill} stroke="#fff" strokeWidth="0.5" />
-        </g>
-    );
-};
-
 // ── Position change chart ─────────────────────────────────────────
 function GridFinishChart({ results }) {
     if (!results?.length) return null;
 
-    const top10 = results.slice(0, 10);
-    // Build properly-keyed data array for Recharts
+    const all = results; // show every driver
     const chartData = [
-        { pos: 'Grid', ...Object.fromEntries(top10.map(r => [r.Driver.code || r.Driver.familyName.slice(0, 3).toUpperCase(), parseInt(r.grid) || 20])) },
-        { pos: 'Finish', ...Object.fromEntries(top10.map(r => [r.Driver.code || r.Driver.familyName.slice(0, 3).toUpperCase(), parseInt(r.position) || 20])) },
+        { pos: 'Grid', ...Object.fromEntries(all.map(r => [r.Driver.code || r.Driver.familyName.slice(0, 3).toUpperCase(), parseInt(r.grid) || 20])) },
+        { pos: 'Finish', ...Object.fromEntries(all.map(r => [r.Driver.code || r.Driver.familyName.slice(0, 3).toUpperCase(), parseInt(r.position) || 20])) },
     ];
 
-    const drivers = top10.map(r => ({
+    const drivers = all.map(r => ({
         key: r.Driver.code || r.Driver.familyName.slice(0, 3).toUpperCase(),
         color: getTeamColor(r.Constructor.constructorId),
     }));
 
-    const maxPos = Math.max(...top10.map(r => Math.max(parseInt(r.grid) || 1, parseInt(r.position) || 1)), 10);
+    const maxPos = Math.max(...all.map(r => Math.max(parseInt(r.grid) || 1, parseInt(r.position) || 1)), all.length);
 
     return (
         <div className="chart-wrap card">
-            <h3 className="chart-title">Grid → Finish Position (Top 10)</h3>
-            <ResponsiveContainer width="100%" height={280}>
-                <LineChart data={chartData} margin={{ top: 16, right: 24, bottom: 5, left: 0 }}>
+            <h3 className="chart-title">Grid → Finish — All Drivers</h3>
+            <ResponsiveContainer width="100%" height={340}>
+                <LineChart data={chartData} margin={{ top: 16, right: 30, bottom: 5, left: 0 }}>
                     <XAxis dataKey="pos" tick={{ fill: '#888', fontSize: 13, fontWeight: 600 }} />
                     <YAxis
                         reversed
@@ -59,10 +41,10 @@ function GridFinishChart({ results }) {
                         label={{ value: 'Position', angle: -90, position: 'insideLeft', fill: '#888', fontSize: 11 }}
                     />
                     <Tooltip
-                        contentStyle={{ background: 'var(--f1-card)', border: '1px solid var(--f1-border)', borderRadius: '8px', color: '#fff', fontSize: '0.8rem' }}
+                        contentStyle={{ background: 'var(--f1-card)', border: '1px solid var(--f1-border)', borderRadius: '8px', color: '#fff', fontSize: '0.78rem' }}
                     />
                     <Legend
-                        wrapperStyle={{ fontSize: '0.7rem', paddingTop: '0.5rem' }}
+                        wrapperStyle={{ fontSize: '0.65rem', paddingTop: '0.5rem' }}
                         formatter={(val, entry) => <span style={{ color: entry.color }}>{val}</span>}
                     />
                     {drivers.map(d => (
@@ -71,9 +53,9 @@ function GridFinishChart({ results }) {
                             type="monotone"
                             dataKey={d.key}
                             stroke={d.color}
-                            strokeWidth={2}
-                            dot={<CarDot fill={d.color} />}
-                            activeDot={{ r: 6, fill: d.color, stroke: '#fff', strokeWidth: 1 }}
+                            strokeWidth={1.8}
+                            dot={{ r: 5, fill: d.color, stroke: '#fff', strokeWidth: 1.5 }}
+                            activeDot={{ r: 7, fill: d.color, stroke: '#fff', strokeWidth: 2 }}
                             connectNulls
                         />
                     ))}
@@ -82,6 +64,7 @@ function GridFinishChart({ results }) {
         </div>
     );
 }
+
 
 // ── Main Results page ─────────────────────────────────────────────
 export default function Results() {

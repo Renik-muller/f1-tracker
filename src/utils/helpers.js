@@ -10,7 +10,8 @@ export const TEAM_COLORS = {
     rb: '#6692FF',
     williams: '#64C4FF',
     sauber: '#52E252',
-    cadillac: '#CC0000',
+    cadillac: '#FFFFFF',
+    audi: '#111111',
     alphatauri: '#5E8FAA',
     alfa: '#C92D4B',
 };

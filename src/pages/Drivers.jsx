@@ -6,6 +6,7 @@ import DriverPhoto from '../components/DriverPhoto';
 import TeamLogo from '../components/TeamLogo';
 import { useDriverStandings } from '../hooks/useF1Data';
 import { DRIVERS_2026 } from '../utils/drivers2026';
+import { applyDriverOverrides2025 } from '../utils/driverOverrides2025';
 import { getCountryFlag, getTeamColor, getNationality } from '../utils/helpers';
 import './Drivers.css';
 
@@ -15,10 +16,11 @@ const DRIVER_NUMBERS = {
     lewis_hamilton: 44, kimi_antonelli: 12, fernando_alonso: 14,
     lance_stroll: 18, pierre_gasly: 10, jack_doohan: 7,
     esteban_ocon: 31, nico_hulkenberg: 27, oliver_bearman: 87,
-    isack_hadjar: 6, yuki_tsunoda: 22, liam_lawson: 30,
+    isack_hadjar: 6, liam_lawson: 30, arvid_lindblad: 5,
     alexander_albon: 23, franco_colapinto: 43,
-    gabriel_bortoleto: 5, colton_herta: 28, marcus_armstrong: 45,
+    gabriel_bortoleto: 16, sergio_perez: 11, valtteri_bottas: 77,
 };
+
 
 // Map DRIVERS_2026 structure into the same shape as Ergast standing items
 function to2026Standing(d, i) {
@@ -49,10 +51,10 @@ export default function Drivers() {
         setSelected(null);
     };
 
-    // Use static 2026 roster if 2026 selected
+    // Use static 2026 roster if 2026 selected, otherwise apply overrides to API data
     const rawDrivers = season === 2026
         ? DRIVERS_2026.map(to2026Standing)
-        : standings2025;
+        : applyDriverOverrides2025(standings2025 || []);
 
     if (loading && season === 2025) return <div className="page"><LoadingSpinner /></div>;
     if (error && season === 2025) return <div className="page"><div className="error-box">Failed to load drivers.</div></div>;
